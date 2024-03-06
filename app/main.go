@@ -12,11 +12,13 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 
-	mysqlRepo "github.com/bxcodec/go-clean-arch/internal/repository/mysql"
+	mysqlRepo "github.com/abkhan/simple-weather/internal/repository/mysql"
 
-	"github.com/bxcodec/go-clean-arch/article"
-	"github.com/bxcodec/go-clean-arch/internal/rest"
-	"github.com/bxcodec/go-clean-arch/internal/rest/middleware"
+	"github.com/abkhan/simple-weather/article"
+	"github.com/abkhan/simple-weather/internal/repository/weatherapi"
+	"github.com/abkhan/simple-weather/internal/rest"
+	"github.com/abkhan/simple-weather/internal/rest/middleware"
+	"github.com/abkhan/simple-weather/internal/rest/wserver"
 	"github.com/joho/godotenv"
 )
 
@@ -59,8 +61,23 @@ func main() {
 			log.Fatal("got error when closing the DB connection", err)
 		}
 	}()
-	// prepare echo
 
+	// prep for openWeather api access
+	// Get apiKey from env
+	owurl := os.Getenv("OPENWEATHER_URL") // example: https://api.openweathermap.org/data/2.5/weather
+	if owurl == "" {
+		owurl = "https://api.openweathermap.org/data/2.5/weather"
+	}
+	owApiKey := os.Getenv("OPENWEATHER_API_KEY")
+
+	// first create weatherApi
+	wapi := weatherapi.New(owurl, owApiKey)
+
+	// then create and start server
+	wserver := wserver.New(wapi)
+	wserver.Start()
+
+	// prepare echo
 	e := echo.New()
 	e.Use(middleware.CORS)
 	timeoutStr := os.Getenv("CONTEXT_TIMEOUT")

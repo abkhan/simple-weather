@@ -7,8 +7,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/bxcodec/go-clean-arch/domain"
-	"github.com/bxcodec/go-clean-arch/internal/repository"
+	"github.com/abkhan/simple-weather/domain"
+	"github.com/abkhan/simple-weather/internal/repository"
 )
 
 type ArticleRepository struct {

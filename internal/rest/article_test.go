@@ -16,9 +16,9 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/bxcodec/go-clean-arch/domain"
-	"github.com/bxcodec/go-clean-arch/internal/rest"
-	"github.com/bxcodec/go-clean-arch/internal/rest/mocks"
+	"github.com/abkhan/simple-weather/domain"
+	"github.com/abkhan/simple-weather/internal/rest"
+	"github.com/abkhan/simple-weather/internal/rest/mocks"
 )
 
 func TestFetch(t *testing.T) {
